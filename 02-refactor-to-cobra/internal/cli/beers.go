@@ -15,6 +15,12 @@ var beers = map[string]string{
 	"01D9X5CVS1M9VR5ZD627XDF6ND": "Belgian Moon",
 }
 
+var stores = map[string]string{
+	"01DC9ZAPGKEQJS4P4A48EG3P43": "Mercadona",
+	"01DC9ZB23EW0J0ARAER09SJDKC": "Carrefour",
+	"01DC9ZB89V1PQD977ZE6QXSQHH": "Alcampo",
+}
+
 const idFlag = "id"
 
 // InitBeersCmd initialize beers command
@@ -38,6 +44,29 @@ func runBeersFn() CobraFn {
 			fmt.Println(beers[id])
 		} else {
 			fmt.Println(beers)
+		}
+	}
+}
+
+// InitShopsCmd initialize shops command
+func InitShopCmd() *cobra.Command {
+	storesCmd := &cobra.Command{
+		Use:   "stores",
+		Short: "Print stores or a store by id",
+		Run:   runStoresFn(),
+	}
+	storesCmd.Flags().StringP(idFlag, "i", "", "Id of the store or blank for all stores")
+	return storesCmd
+}
+
+func runStoresFn() CobraFn {
+	return func(cmd *cobra.Command, args []string) {
+		id, _ := cmd.Flags().GetString(idFlag)
+		fmt.Println(id)
+		if id != "" {
+			fmt.Println(stores[id])
+		} else {
+			fmt.Println(stores)
 		}
 	}
 }
